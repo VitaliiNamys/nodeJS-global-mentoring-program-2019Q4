@@ -1,38 +1,24 @@
-const csv = require('csvtojson');
-const path = require('path');
-const fs = require('fs');
+import csv from 'csvtojson';
+import path from 'path';
+import fs from 'fs';
+import { pipeline } from 'stream';
 
 const fileName = 'node_mentoring_t1_2_input_example';
 const csvFilePath = path.join(__dirname, `csv/${fileName}.csv`);
-const txtFileName = `${fileName}.txt`;
+const txtFileName = path.join(__dirname, `${fileName}.txt`);
 
-(async function () {
-    try {
-        const csvData = await getDataFromCSV();
+const csvReadStream = fs.createReadStream(csvFilePath);
+const txtWriteStream = fs.createWriteStream(txtFileName);
 
-        fs.writeFile(txtFileName, csvData, err => { if (err) { throw err; } });
-    } catch (err) {
-        console.error(err);
+pipeline(
+    csvReadStream,
+    csv(),
+    txtWriteStream,
+    err => {
+        if (err) {
+            console.error('Pipeline failed\n', err);
+        } else {
+            console.log('Pipeline succeeded');
+        }
     }
-}());
-
-async function getDataFromCSV() {
-    let processedData = '';
-
-    await csv()
-        .fromFile(csvFilePath)
-        .preFileLine((fileLine, lineIdx) => {
-            if (lineIdx === 0) { return; }
-            processedData += `${processCSVLine(fileLine)}\n`;
-
-            return fileLine;
-        });
-
-    return processedData;
-}
-
-function processCSVLine(csvFileLine) {
-    const [book, author, , price] = csvFileLine.split(',');
-
-    return JSON.stringify({ book, author, price });
-}
+);
