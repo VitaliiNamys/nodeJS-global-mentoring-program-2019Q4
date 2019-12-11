@@ -1,0 +1,28 @@
+{
+  "name": "module-2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "npm run build && node dist/index.js",
+    "dev": "nodemon --watch src --ext .ts",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "rimraf dist/ && babel src --out-dir dist --extensions .ts",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "author": "Vitalii Namys",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-typescript": "^7.7.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.2",
+    "nodemon": "^2.0.2",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.3"
+  }
+}
