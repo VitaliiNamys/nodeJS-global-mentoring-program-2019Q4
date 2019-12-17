@@ -19,7 +19,9 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-typescript": "^7.7.4",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
+    "@types/hapi__joi": "^16.0.4",
     "@types/node": "^12.12.17",
     "@types/uuid": "^3.4.6",
     "babel-eslint": "^10.0.3",
@@ -29,6 +31,8 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "uuid": "^3.3.3"
   }
