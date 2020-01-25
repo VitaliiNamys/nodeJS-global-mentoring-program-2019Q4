@@ -6,7 +6,7 @@ export const pathParamsIdSchema: Joi.Schema = Joi.object().keys({
 
 export const queryParamsFindAllUsersSchema: Joi.Schema = Joi.object().keys({
     limit: Joi.number().default(20),
-    loginSubstring: Joi.string()
+    loginSubstring: Joi.string().default(null)
 });
 
 export const validateUserSchema: Joi.Schema = Joi.object().keys({

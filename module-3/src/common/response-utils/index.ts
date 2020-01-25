@@ -1,22 +1,28 @@
 import { Response } from 'express';
 
 export const success = (res: Response, body: any) => {
-    res.status(200).json(body);
+    return res.status(200).json(body);
 };
 
 export const noContent = (res: Response) => {
-    res.sendStatus(204);
+    return res.sendStatus(204);
 };
 
 export const notFound = (res: Response, body: any) => {
-    body.error = body.error || 'NOT_FOUND';
+    body.code = body.code || 'NOT_FOUND';
 
-    res.status(404).json(body);
+    return res.status(404).json(body);
+};
+
+export const badRequest = (res: Response, body: any) => {
+    body.code = body.code || 'VALIDATION_ERROR';
+
+    return res.status(400).json(body);
 };
 
 export const internalError = (res: Response) => {
-    res.status(500).json({
-        error: 'UNEXPECTED_ERROR',
-        error_description: 'Unexpected error has occurred'
+    return res.status(500).json({
+        code: 'UNEXPECTED_ERROR',
+        description: 'Unexpected error has occurred'
     });
 };
