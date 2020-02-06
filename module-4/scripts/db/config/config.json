@@ -1,0 +1,12 @@
+{
+  "development": {
+    "username": "xahcpemruhqldc",
+    "password": "cfb11ad51fdd2c1a80d3189f53f3efbfd7b358eed134e33ed773b963256cc7ed",
+    "database": "d633bvl7mqj0sq",
+    "host": "ec2-54-246-121-32.eu-west-1.compute.amazonaws.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": true
+    }
+  }
+}
