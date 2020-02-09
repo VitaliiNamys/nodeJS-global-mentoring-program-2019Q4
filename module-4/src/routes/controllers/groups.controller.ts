@@ -1,16 +1,27 @@
 import { success, noContent, notFound, internalError } from '../../common/response-utils';
-import { Group } from '../../models/group.model'
-import { UpdateOptions, DestroyOptions } from 'sequelize'
+import { Group } from '../../models/group.model';
+import { User } from '../../models/user.model';
+import { UserGroup } from '../../models/userGroup.model';
+import { UpdateOptions, DestroyOptions } from 'sequelize';
 import { Request, Response } from 'express';
 import { IGroupDTO } from '../../types';
+import { UserService } from '../../services/userService';
 
 export class GroupsController {
 
     public async create(req: Request, res: Response) {
         const params: IGroupDTO = req.body;
 
+        const userService: UserService = new UserService();
+
         try {
             const newGroup = await Group.create<Group>(params);
+
+            const groupId = newGroup.getDataValue('id');
+
+            if (params.users && params.users.length > 0) {
+                await userService.addUsersToGroup(groupId, params.users);
+            }
 
             return success(res, newGroup);
         } catch (error) {
@@ -43,7 +54,19 @@ export class GroupsController {
             const group = await Group.findByPk<Group>(groupId);
 
             if (group) {
-                return success(res, group);
+
+                const usersIds = (await UserGroup.findAll({
+                    where: { groupId: groupId },
+                    attributes: ['userId'],
+                })).map(userId => userId.getDataValue('userId'));
+
+                const users = (await User.findAll({
+                    where: { id: usersIds },
+                })).map(user => user.get());
+
+                const detailedGroup = { ...group.get(), users };
+
+                return success(res, detailedGroup);
             } else {
                 return notFound(res, { description: `Group with id ${groupId} does not exist` });
             }
@@ -73,6 +96,10 @@ export class GroupsController {
 
         try {
             await Group.destroy(options);
+
+            await UserGroup.destroy({
+                where: { groupId },
+            });
 
             return noContent(res);
         } catch (error) {

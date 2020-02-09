@@ -1,4 +1,7 @@
+const uuid = require('uuid');
+
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     id: {
@@ -17,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   Group.associate = function(models) {
-    // associations can be defined here
+    Group.belongsToMany(User, { through: models.UserGroup });
   };
   return Group;
 };

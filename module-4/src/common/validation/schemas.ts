@@ -15,11 +15,12 @@ export const queryParamsFindAllUsersSchema: Joi.Schema = Joi.object().keys({
 export const validateUserSchema: Joi.Schema = Joi.object().keys({
     login: Joi.string().required(),
     password: Joi.string().alphanum().required(),
-    age: Joi.number().min(4).max(120).required()
+    age: Joi.number().min(4).max(120).required(),
 });
 
 export const validateGroupSchema: Joi.Schema = Joi.object().keys({
     name: Joi.string().required(),
     permissions: Joi.array().items(Joi.string().valid(...validPermissions)).required(),
+    users: Joi.array().items(Joi.string().uuid()).min(1).default(null),
 });
 

@@ -7,6 +7,7 @@ export interface IGroup {
 export interface IGroupDTO {
   name: string;
   permissions: Permisson[];
+  users?: string[];
 }
 
 export type Permisson = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';

@@ -5,15 +5,15 @@ module.exports = {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       permissions: {
-        type: Sequelize.ARRAY,
-        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
