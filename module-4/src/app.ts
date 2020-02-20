@@ -12,6 +12,7 @@ class App {
     this.router = express.Router();
     this.routes = new Routes();
     this.routes.userRoutes(this.router);
+    this.routes.groupRoutes(this.router);
     this.config();
   }
 

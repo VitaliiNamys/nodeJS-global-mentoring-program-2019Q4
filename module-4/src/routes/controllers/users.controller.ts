@@ -1,5 +1,7 @@
 import { success, noContent, notFound, internalError } from '../../common/response-utils';
-import { User } from '../../models/user.model'
+import { Group } from '../../models/group.model';
+import { User } from '../../models/user.model';
+import { UserGroup } from '../../models/userGroup.model';
 import { UpdateOptions, DestroyOptions, FindOptions } from 'sequelize'
 import { Request, Response } from 'express';
 import { IUserDTO } from '../../types';
@@ -43,7 +45,19 @@ export class UsersController {
             const user = await User.findByPk<User>(userId);
 
             if (user) {
-                return success(res, user);
+
+                const groupsIds = (await UserGroup.findAll({
+                    where: { userId },
+                    attributes: ['groupId'],
+                })).map(groupId => groupId.getDataValue('groupId'));
+
+                const groups = (await Group.findAll({
+                    where: { id: groupsIds },
+                })).map(group => group.get());
+
+                const detailedUser = { ...user.get(), groups };
+
+                return success(res, detailedUser);
             } else {
                 return notFound(res, { description: `User with id ${userId} does not exist` });
             }
@@ -81,6 +95,10 @@ export class UsersController {
 
         try {
             await User.destroy(options);
+
+            await UserGroup.destroy({
+                where: { userId },
+            });
 
             return noContent(res);
         } catch (error) {
