@@ -6,8 +6,10 @@ import { UpdateOptions, DestroyOptions } from 'sequelize';
 import { Request, Response } from 'express';
 import { IGroupDTO } from '../../types';
 import { UserService } from '../../services/userService';
+import { Logger } from '../../common/logger';
 
 export class GroupsController {
+    public logger: Logger = new Logger();
 
     public async create(req: Request, res: Response) {
         const params: IGroupDTO = req.body;
@@ -25,6 +27,8 @@ export class GroupsController {
 
             return success(res, newGroup);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -43,6 +47,8 @@ export class GroupsController {
 
             return success(res, updatedGroup);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -71,6 +77,8 @@ export class GroupsController {
                 return notFound(res, { description: `Group with id ${groupId} does not exist` });
             }
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -103,6 +111,8 @@ export class GroupsController {
 
             return noContent(res);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }

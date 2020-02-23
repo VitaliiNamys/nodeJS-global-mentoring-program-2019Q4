@@ -8,7 +8,10 @@ export default class Database {
     constructor() {
         this.url = config.db.DBUrl || '';
 
-        this.database = new Sequelize(this.url, { dialectOptions: { ssl: true } });
+        this.database = new Sequelize(this.url, {
+            dialectOptions: { ssl: true },
+            logging: false,
+        });
 
         this.database.authenticate()
             .then(() => {

@@ -5,8 +5,10 @@ import { UserGroup } from '../../models/userGroup.model';
 import { UpdateOptions, DestroyOptions, FindOptions } from 'sequelize'
 import { Request, Response } from 'express';
 import { IUserDTO } from '../../types';
+import { Logger } from '../../common/logger';
 
 export class UsersController {
+    public logger: Logger = new Logger();
 
     public async create(req: Request, res: Response) {
         const params: IUserDTO = req.body;
@@ -16,6 +18,8 @@ export class UsersController {
 
             return success(res, newUser);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -34,6 +38,8 @@ export class UsersController {
 
             return success(res, updatedUser);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -62,6 +68,8 @@ export class UsersController {
                 return notFound(res, { description: `User with id ${userId} does not exist` });
             }
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -81,6 +89,8 @@ export class UsersController {
 
             return success(res, users);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
@@ -102,6 +112,8 @@ export class UsersController {
 
             return noContent(res);
         } catch (error) {
+            this.logger.write('Error', error);
+
             return internalError(res);
         }
     }
