@@ -1,8 +1,9 @@
-import express, { Application, Request, Response, Router } from "express";
+import express, { Application, Request, Response, Router } from 'express';
 import { internalError, notFound } from './common/response-utils';
-import { Routes } from "./routes";
+import { Routes } from './routes';
 import { middleware as loggerMiddleware } from './middlewares/logger';
 import { Logger } from './common/logger';
+import cors, { CorsOptions } from 'cors';
 
 class App {
   public app: Application;
@@ -21,6 +22,13 @@ class App {
   }
 
   private config(): void {
+    const corsOptions: CorsOptions = {
+      origin: '*',
+      allowedHeaders: '*',
+      exposedHeaders: '*',
+    };
+
+    this.app.use(cors(corsOptions));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
 
