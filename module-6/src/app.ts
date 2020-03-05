@@ -18,6 +18,7 @@ class App {
     this.logger = new Logger();
     this.routes.userRoutes(this.router);
     this.routes.groupRoutes(this.router);
+    this.routes.authRoutes(this.router);
     this.config();
   }
 

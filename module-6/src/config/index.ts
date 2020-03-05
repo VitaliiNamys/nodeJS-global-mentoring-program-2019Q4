@@ -9,5 +9,7 @@ export default {
     ENV: process.env.NODE_ENV || 'development',
     db: {
         DBUrl: process.env.DB_URL
-    }
+    },
+    jwtSecret: process.env.JWT_Secret || 'secret',
+    tokenExpTime: 86400 // 24hours in seconds
 };

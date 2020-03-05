@@ -11,7 +11,7 @@ import { Logger } from '../../common/logger';
 export class GroupsController {
     public logger: Logger = new Logger();
 
-    public async create(req: Request, res: Response) {
+    public async create(req: Request, res: Response): Promise<Response> {
         const params: IGroupDTO = req.body;
 
         const userService: UserService = new UserService();
@@ -33,7 +33,7 @@ export class GroupsController {
         }
     }
 
-    public async update(req: Request, res: Response) {
+    public async update(req: Request, res: Response): Promise<Response> {
         const { id: groupId } = req.params;
         const params: IGroupDTO = req.body;
 
@@ -53,7 +53,7 @@ export class GroupsController {
         }
     }
 
-    public async findById(req: Request, res: Response) {
+    public async findById(req: Request, res: Response): Promise<Response> {
         const { id: groupId } = req.params;
 
         try {
@@ -83,7 +83,7 @@ export class GroupsController {
         }
     }
 
-    public async findAll(req: Request, res: Response) {
+    public async findAll(req: Request, res: Response): Promise<Response> {
 
         try {
             const groups = await Group.findAll<Group>();
@@ -94,7 +94,7 @@ export class GroupsController {
         }
     }
 
-    public async remove(req: Request, res: Response) {
+    public async remove(req: Request, res: Response): Promise<Response> {
         const { id: groupId } = req.params;
 
         const options: DestroyOptions = {
