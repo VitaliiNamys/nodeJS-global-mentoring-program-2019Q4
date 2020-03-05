@@ -24,3 +24,7 @@ export const validateGroupSchema: Joi.Schema = Joi.object().keys({
     users: Joi.array().items(Joi.string().uuid()).min(1).default(null),
 });
 
+export const validateCredsSchema: Joi.Schema = Joi.object().keys({
+    login: Joi.string().required(),
+    password: Joi.string().required(),
+});

@@ -1,17 +1,31 @@
 import { UsersController } from './controllers/users.controller';
 import { GroupsController } from './controllers/groups.controller';
+import { AuthController } from './controllers/auth.controller';
 import { middleware as validate } from '../middlewares/validation';
+import { middleware as authMiddleware } from '../middlewares/auth';
 import {
     queryParamsFindAllUsersSchema,
     pathParamsIdSchema,
     validateUserSchema,
     validateGroupSchema,
+    validateCredsSchema,
 } from '../common/validation';
 import { Router } from "express";
 
 export class Routes {
     public usersController: UsersController = new UsersController();
     public groupsController: GroupsController = new GroupsController();
+    public authController: AuthController = new AuthController();
+
+    public authRoutes(router: Router): void {
+
+        router.route('/auth/token')
+            .post(
+                validate(validateCredsSchema, 'body'),
+                this.authController.getToken,
+            );
+
+    }
 
     public groupRoutes(router: Router): void {
 
@@ -38,6 +52,8 @@ export class Routes {
                 validate(pathParamsIdSchema, 'params'),
                 this.groupsController.remove,
             );
+
+        router.all('/groups*', authMiddleware());
     }
 
     public userRoutes(router: Router): void {
@@ -66,5 +82,7 @@ export class Routes {
                 validate(pathParamsIdSchema, 'params'),
                 this.usersController.remove,
             );
+
+        router.all('/users*', authMiddleware());
     }
 }

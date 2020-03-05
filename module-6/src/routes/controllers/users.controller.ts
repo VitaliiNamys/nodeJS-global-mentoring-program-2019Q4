@@ -10,7 +10,7 @@ import { Logger } from '../../common/logger';
 export class UsersController {
     public logger: Logger = new Logger();
 
-    public async create(req: Request, res: Response) {
+    public async create(req: Request, res: Response): Promise<Response> {
         const params: IUserDTO = req.body;
 
         try {
@@ -24,7 +24,7 @@ export class UsersController {
         }
     }
 
-    public async update(req: Request, res: Response) {
+    public async update(req: Request, res: Response): Promise<Response> {
         const { id: userId } = req.params;
         const params: IUserDTO = req.body;
 
@@ -44,7 +44,7 @@ export class UsersController {
         }
     }
 
-    public async findById(req: Request, res: Response) {
+    public async findById(req: Request, res: Response): Promise<Response> {
         const { id: userId } = req.params;
 
         try {
@@ -74,7 +74,7 @@ export class UsersController {
         }
     }
 
-    public async findAll(req: Request, res: Response) {
+    public async findAll(req: Request, res: Response): Promise<Response> {
         const { limit } = req.query;
 
         const options: FindOptions = {
@@ -95,7 +95,7 @@ export class UsersController {
         }
     }
 
-    public async remove(req: Request, res: Response) {
+    public async remove(req: Request, res: Response): Promise<Response> {
         const { id: userId } = req.params;
 
         const options: DestroyOptions = {
