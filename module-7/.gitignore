@@ -4,3 +4,6 @@
 
 # Files
 package-lock.json
+
+#jest
+/coverage
